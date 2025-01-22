@@ -20,7 +20,7 @@ class ObjectModel extends Model implements \Iterator, \Countable
     protected $collection = [];
     protected $innerCounter = -1;
 
-    public function current()
+    public function current(): mixed
     {
         if (is_array(current($this->collection))) {
             return new ObjectModel(current($this->collection));
@@ -29,30 +29,31 @@ class ObjectModel extends Model implements \Iterator, \Countable
         return current($this->collection);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->innerCounter++;
         return next($this->collection);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->collection);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->innerCounter < count($this->collection);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->innerCounter = 0;
         reset($this->collection);
         return;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->collection);
     }
